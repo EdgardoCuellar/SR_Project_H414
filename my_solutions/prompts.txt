@@ -1,0 +1,7 @@
+I'm working on swarm intelligence robotics using argos3 with footbot, the topic is a Prey Hunter situation where I need to code the best algorithm for the predators to catch the prey the faster. 
+The prey just walk randomly, there is nothing special, to be considered catch the predator should stay at least a certain amount of time close to the prey. The preys emit green light, and the predators emit red light.
+The algorithm should be an ofline algorithm, each preadator is going to have the same code that it execute for each step, so the only why the predators have to interact with each others is by sending short messages to other close robot. The robots can detect close objects with sensors, and have a omnidirectional camera that detect colors from far away.
+Could you give me some algorithm and pseudo code of these algorithm for the predators to catch the prey the faster possible
+
+
+https://chat.openai.com/share/d3b6ea7f-b56d-4aab-acc8-bef40f839ba8
