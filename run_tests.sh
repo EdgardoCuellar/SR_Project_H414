@@ -4,7 +4,7 @@
 num_experiments=$1
 
 # Loop for the specified number of experiments
-for ((q=5; q<=30; q+=5))
+for ((q=5; q<=40; q+=5))
 do
     for ((i=1; i<=$num_experiments; i++))
     do

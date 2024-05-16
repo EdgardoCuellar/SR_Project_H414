@@ -10,6 +10,7 @@ min_distance = 35  -- Minimum distance between predators
 preyStoppedDistance = 25  -- Distance threshold to consider prey stopped
 stop_time_threshold = 100  -- Time threshold to stop moving after receiving stop message
 prediction_intensity = 0.3 -- Intensity of the prediction, the intesinty of the prediction tweak
+repeat_signal = 1 -- Number of times the predator should resend the message of where another predator said where the prey is
 
 function init()
     -- Initialize robot behaviors or attributes
@@ -36,7 +37,7 @@ function predatorBehavior()
             -- The angle is normalized to be between 0 and 255
             robot.range_and_bearing.set_data(1, ((preyAngle + math.pi) / math.pi) * 255 )
             robot.range_and_bearing.set_data(2, math.min(closestPrey.distance, 255))
-            robot.range_and_bearing.set_data(3, 10) -- indicate that he knows where the prey is
+            robot.range_and_bearing.set_data(3, 1000) -- indicate that he knows where the prey is
             local adjustedAngle = adjustAngleToAvoidCollisions(preyAngle, closestPrey.distance)
             speeds = ComputeSpeedFromAngle(adjustedAngle)
         else

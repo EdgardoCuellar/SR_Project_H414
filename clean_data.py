@@ -17,7 +17,8 @@ def main(files_prefix):
         df = df.iloc[:, [0, 2]]  # Retain first and third columns
         dfs.append(df)
 
-    merged_df = pd.concat(dfs).groupby(level=0).mean()
+    concatenated_df = pd.concat(dfs)
+    merged_df = concatenated_df.groupby(concatenated_df.columns[0]).mean()
 
     # Save merged DataFrame to a new CSV file
     merged_df.to_csv("./output_final/"+files_prefix+".csv")
