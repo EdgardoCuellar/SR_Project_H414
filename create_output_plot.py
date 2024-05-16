@@ -26,11 +26,11 @@ def main(file_prefix, csv_files):
     plt.title('Predator-Prey trap Simulation')
     plt.xlabel('Time')
     plt.ylabel('Score')
-    # plt.yscale('log')
+    plt.yscale('log')
     plt.xlim(0, 6000)
     plt.legend()
     plt.grid(True)
-    plt.savefig(f"./output_plot/{file_prefix}.png", dpi=300)
+    plt.savefig(f"./output_plot/{file_prefix}_log.png", dpi=300)
 
 if __name__ == '__main__':
     csv_files = get_files_with_prefix(sys.argv[1])
