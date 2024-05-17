@@ -13,12 +13,12 @@ def main(csv_files):
     rab_ranges = []
     omnidirectional_cameras = []
     for file in csv_files:
-        omnidirectional_camera = file.split('-')[1]
+        omnidirectional_camera = int(file.split('-')[1])
         if omnidirectional_camera not in omnidirectional_cameras:
             omnidirectional_cameras.append(omnidirectional_camera)  
-        rab_range = file.split('-')[2][0:-4]
+        rab_range = float(file.split('-')[2])
         if rab_range not in rab_ranges:
-            rab_ranges.append(rab_range)  
+            rab_ranges.append(rab_range) 
     
     # Create a DataFrame to store the statistics
     stats = pd.DataFrame(index=rab_ranges, columns=omnidirectional_cameras)
@@ -27,12 +27,13 @@ def main(csv_files):
         for omnidirectional_camera in omnidirectional_cameras:
             dfs = []
             for file in csv_files:
-                if rab_range == file.split('-')[2][0:-4] and omnidirectional_camera == file.split('-')[1]:
+                if str(rab_range) == file.split('-')[2] and str(omnidirectional_camera) == file.split('-')[1]:
                     df = pd.read_csv(file)
                     dfs.append(df)
 
             only_last_row = []
             first_1_list = []
+            
             for i, df in enumerate(dfs):
                 only_last_row.append(df.iloc[-1])
                 for index, row in df.iterrows():
@@ -49,7 +50,7 @@ def main(csv_files):
             stats.loc[rab_range, omnidirectional_camera] = [last_score_mean, last_worst_score, last_best_score, last_score_median, first_1_mean]
 
     # Save the statistics to a new CSV file
-    stats.to_csv(f"./stats.csv")
+    stats.to_csv(f"./stats_loyalty.csv")
 
 if __name__ == '__main__':
     csv_files = get_files_with_prefix(sys.argv[1])

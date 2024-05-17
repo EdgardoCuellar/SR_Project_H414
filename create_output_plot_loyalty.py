@@ -6,7 +6,7 @@ import sys
 import matplotlib.cm as cm
 
 output_dir = "./output_final/"
-log = False
+log = True
 
 def get_files_with_prefix(prefix):
     file_names = [f for f in os.listdir(output_dir) if f.startswith(prefix)]
@@ -16,8 +16,6 @@ def get_files_with_prefix(prefix):
 def main(file_prefix, csv_files):
     plt.figure(figsize=(10, 6))
     
-    # Extract unique rab_ranges for color mapping
-    rab_ranges = sorted(set(float(file.split('-')[2][0:-4]) for file in csv_files))
     color_map = plt.get_cmap('tab10')  # Use a predefined colormap
     
     for i, file in enumerate(csv_files):
@@ -37,13 +35,13 @@ def main(file_prefix, csv_files):
     plt.ylabel('Score')
     if log:
         plt.yscale('log')
-    plt.xlim(5000, 6000)
+    plt.xlim(0, 6000)
     plt.legend()
     plt.grid(True)
     if log:
-        plt.savefig(f"./output_plot/{file_prefix}_loyalty_log_zoom.png", dpi=300)
+        plt.savefig(f"./output_plot/{file_prefix}_log.png", dpi=300)
     else:
-        plt.savefig(f"./output_plot/{file_prefix}_loyalty_zoom.png", dpi=300)
+        plt.savefig(f"./output_plot/{file_prefix}.png", dpi=300)
 
 if __name__ == '__main__':
     csv_files = get_files_with_prefix(sys.argv[1])
