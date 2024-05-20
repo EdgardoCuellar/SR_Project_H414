@@ -5,7 +5,7 @@ import os
 import sys
 
 output_dir = "./output_final/"
-log = True
+log = False
 
 def get_files_with_prefix(prefix):
     file_names = [f for f in os.listdir(output_dir) if f.startswith(prefix)]
@@ -29,13 +29,14 @@ def main(file_prefix, csv_files):
     plt.ylabel('Score')
     if log:
         plt.yscale('log')
-    plt.xlim(0, 6000)
+    plt.xlim(5000, 6000)
+    plt.ylim(4500, 5800)
     plt.legend()
     plt.grid(True)
     if log:
         plt.savefig(f"./output_plot/{file_prefix}_scalability_log.png", dpi=300)
     else:
-        plt.savefig(f"./output_plot/{file_prefix}_scalability.png", dpi=300)
+        plt.savefig(f"./output_plot/{file_prefix}_scalability_zoom.png", dpi=300)
 
 if __name__ == '__main__':
     csv_files = get_files_with_prefix(sys.argv[1])

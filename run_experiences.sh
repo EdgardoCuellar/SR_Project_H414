@@ -14,6 +14,10 @@ do
     # Replace the value of random_seed in line 11 of your document
     sed -i "11s/random_seed=\"[0-9]*\"/random_seed=\"$random_value\"/" predatorprey.argos
 
+    output_name="./output_csv/$2.csv"
+    sed -i "s|<loop_functions library=\".*\" label=\"predatorprey\" output=\".*\"/>|<loop_functions library=\"./build/libpredatorprey\" label=\"predatorprey\" output=\"$output_name\"/>|" predatorprey.argos
+
+
     # Run your experiment and capture the output
     experiment_output=$(argos3 -c predatorprey.argos)
 
@@ -25,7 +29,7 @@ do
     echo "Experiment $i: $cleaned_value"
     results_sum=$(($results_sum + $cleaned_value))
     # Save the last line of output to a file
-    echo "$cleaned_value" >> "$output_name"
+    echo "Average: $cleaned_value" >> "$output_name"
 done
 
 # Calculate the average of the results

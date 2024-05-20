@@ -8,13 +8,13 @@
     <!-- To make ARGoS faster, you can set 'threads' to some number greater than 0 -->
     <system threads="8" />
     <!-- To change the random seed for each experiment repetition, you can set 'random_seed' to whatever value you like -->
-    <experiment length="600" ticks_per_second="10" random_seed="1" />
+    <experiment length="600" ticks_per_second="10" random_seed="217" />
   </framework>
 
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="./build/libpredatorprey" label="predatorprey" output="./output_csv/video.csv"/>
+  <loop_functions library="./build/libpredatorprey" label="predatorprey" output="./output_csv/predators_q30.csv"/>
 
   <!-- *************** -->
   <!-- * Controllers * -->
@@ -147,7 +147,7 @@
   <!-- ****************** -->
   <!-- * Visualization * -->
   <!-- ****************** -->
-  <visualization>
+  <!-- <visualization>
     <qt-opengl lua_editor="true">
       <camera>
 	    <placements>
@@ -155,6 +155,6 @@
         </placements>
       </camera>
     </qt-opengl>
-  </visualization>
+  </visualization> -->
 
 </argos-configuration>
