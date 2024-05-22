@@ -24,7 +24,7 @@ def main(file_prefix, csv_files):
 
         plt.plot(x, y, label=f"{nb} predators")
 
-    plt.title('Predator-Prey Trap Scalability Simulation')
+    plt.title('Predator-Prey Trap Scalability Simulation Zoomed')
     plt.xlabel('Time')
     plt.ylabel('Score')
     if log:

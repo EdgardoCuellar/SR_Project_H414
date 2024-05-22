@@ -38,14 +38,15 @@ def main(file_prefix, output_dir):
     # Plot the median score
     plt.plot(time, median_score, color='blue', linewidth=2, label=f'Median Score')
 
-    plt.title('20 predators basic settings on 100 simulations log')
+    plt.title('20 predators basic settings on 100 simulations Zoomed')
     plt.xlabel('Time')
     plt.ylabel('Score')
-    plt.yscale('log')
+    plt.xlim(5000, 6000)
+    plt.ylim(4000, 6000)
     plt.legend()
     plt.grid(True)
 
-    plt.savefig(f"./output_plot/{file_prefix}_score_distribution_log.png", dpi=300)
+    plt.savefig(f"./output_plot/{file_prefix}_score_distribution_zoom.png", dpi=300)
 
 if __name__ == '__main__':
     file_prefix = sys.argv[1]

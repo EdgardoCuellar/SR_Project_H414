@@ -6,7 +6,7 @@ import sys
 import matplotlib.cm as cm
 
 output_dir = "./output_final/"
-log = True
+log = False
 
 def get_files_with_prefix(prefix):
     file_names = [f for f in os.listdir(output_dir) if f.startswith(prefix)]
@@ -30,18 +30,19 @@ def main(file_prefix, csv_files):
         color = color_map(i % len(color_map.colors))  # Get color from colormap
         plt.plot(x, y, label=f"{rab_range} rab range, {omnidirectional_camera} omnidirectional camera", color=color)
 
-    plt.title('Predator-Prey Trap Loyalty Simulation')
+    plt.title('Predator-Prey Trap Loyalty Simulation Zoomed')
     plt.xlabel('Time')
     plt.ylabel('Score')
     if log:
         plt.yscale('log')
-    plt.xlim(0, 6000)
+    plt.xlim(5000, 6000)
+    plt.ylim(4400, 5600)
     plt.legend()
     plt.grid(True)
     if log:
         plt.savefig(f"./output_plot/{file_prefix}_log.png", dpi=300)
     else:
-        plt.savefig(f"./output_plot/{file_prefix}.png", dpi=300)
+        plt.savefig(f"./output_plot/{file_prefix}_zoom.png", dpi=300)
 
 if __name__ == '__main__':
     csv_files = get_files_with_prefix(sys.argv[1])

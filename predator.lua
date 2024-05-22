@@ -90,6 +90,7 @@ function predatorBehavior()
         for i = 1, #robot.range_and_bearing do
             if robot.range_and_bearing[i].data[5] == 1 then
                 is_stopped = true
+                robot.leds.set_all_colors("green")
                 break
             end
         end
@@ -102,6 +103,7 @@ function predatorBehavior()
             is_stopped = false
             stop_time = 0
             robot.range_and_bearing.set_data(5, 0)
+            robot.leds.set_all_colors("blue")
         end
     end
 
@@ -173,14 +175,20 @@ function adjustAngleToAvoidCollisions(preyAngle, preyDistance)
     local avoidanceVectorY = math.sin(preyAngle) * preyDistance
     local distance = math.huge
     local blob_angle = nil
+    local blob_color = nil
     -- Loop through all detected blobs
     for i, blob in ipairs(robot.colored_blob_omnidirectional_camera) do
         -- Check if the blob is a predator (assuming predators emit blue light)
-        if blob.color.blue > 0 then
+        if blob.color.blue > 0 or blob.color.green > 0 then
             -- Calculate distance to the predator
             if blob.distance < distance then
                 distance = blob.distance
                 blob_angle = blob.angle
+                if blob.color.blue > 0 then
+                    blob_color = "blue"
+                else
+                    blob_color = "green"
+                end
             end
         end
     end
@@ -188,8 +196,13 @@ function adjustAngleToAvoidCollisions(preyAngle, preyDistance)
     -- because if not they are going to push the whole group, and so move the prey
     -- but the prey should be stopped, to stop the whole group
     if distance < min_distance then -- If the predator is too close, adjust the avoidance angle
-        avoidanceVectorX = avoidanceVectorX - (math.cos(blob_angle) * preyDistance)
-        avoidanceVectorY = avoidanceVectorY - (math.sin(blob_angle) * preyDistance)
+        if blob_color == "blue" then
+            avoidanceVectorX = avoidanceVectorX - (math.cos(blob_angle) * preyDistance)
+            avoidanceVectorY = avoidanceVectorY - (math.sin(blob_angle) * preyDistance)
+        else -- If the predator is green, try to avoid it
+            avoidanceVectorX = avoidanceVectorX - (math.cos(blob_angle) * preyDistance + 50)
+            avoidanceVectorY = avoidanceVectorY - (math.sin(blob_angle) * preyDistance + 50)
+        end
     end
 
     return math.atan2(avoidanceVectorY, avoidanceVectorX)

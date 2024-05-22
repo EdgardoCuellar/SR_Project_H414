@@ -8,13 +8,13 @@
     <!-- To make ARGoS faster, you can set 'threads' to some number greater than 0 -->
     <system threads="8" />
     <!-- To change the random seed for each experiment repetition, you can set 'random_seed' to whatever value you like -->
-    <experiment length="600" ticks_per_second="10" random_seed="11" />
+    <experiment length="600" ticks_per_second="10" random_seed="86" />
   </framework>
 
   <!-- ****************** -->
   <!-- * Loop functions * -->
   <!-- ****************** -->
-  <loop_functions library="./build/libpredatorprey" label="predatorprey" output="./output_csv/predators_basics_v2-20-100.csv"/>
+  <loop_functions library="./build/libpredatorprey" label="predatorprey" output="./output_csv/predators_loyalty-20-85.43-2.5-50.csv"/>
 
   <!-- *************** -->
   <!-- * Controllers * -->
@@ -73,7 +73,7 @@
       <!-- You can play with the number of predator robots by changing the 'quantity' attribute -->
       <entity quantity="20" max_trials="100" base_num="1">
         <!-- You can modify their range of interaction by changing the 'omnidirectional_camera_apperture' 82.4 and 'rab_range' 1.5 attributes -->
-        <foot-bot id="pred-fb" omnidirectional_camera_aperture="82.4" rab_range="1.5" >
+        <foot-bot id="pred-fb" omnidirectional_camera_aperture="85.43" rab_range="2.5" >
           <controller config="predator" />
         </foot-bot>
       </entity>
