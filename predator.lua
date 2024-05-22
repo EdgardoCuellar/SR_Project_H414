@@ -90,12 +90,14 @@ function predatorBehavior()
         for i = 1, #robot.range_and_bearing do
             if robot.range_and_bearing[i].data[5] == 1 then
                 is_stopped = true
+                break
             end
         end
     end
 
     if is_stopped then
         speeds = {0, 0}
+        -- Check if the prey has moved away from the predator
         if closestPrey and closestPrey.distance > preyStoppedDistance + 25 then
             is_stopped = false
             stop_time = 0
@@ -182,8 +184,10 @@ function adjustAngleToAvoidCollisions(preyAngle, preyDistance)
             end
         end
     end
-    -- If the predator is too close, adjust the avoidance angle
-    if distance < min_distance then
+    -- If predators start creating a cluster and moving together, the predator should stop
+    -- because if not they are going to push the whole group, and so move the prey
+    -- but the prey should be stopped, to stop the whole group
+    if distance < min_distance then -- If the predator is too close, adjust the avoidance angle
         avoidanceVectorX = avoidanceVectorX - (math.cos(blob_angle) * preyDistance)
         avoidanceVectorY = avoidanceVectorY - (math.sin(blob_angle) * preyDistance)
     end

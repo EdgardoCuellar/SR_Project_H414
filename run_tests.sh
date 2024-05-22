@@ -3,8 +3,11 @@
 # Number of times to run the experiment
 num_experiments=$1
 
+ # save start time
+start=$(date +%s)
+
 # Loop for the specified number of experiments
-for ((q=5; q<=40; q+=5))
+for ((q=20; q<=20; q+=5))
 do
     for ((i=1; i<=$num_experiments; i++))
     do
@@ -21,6 +24,11 @@ do
         # Run your experiment and capture the output
         experiment_output=$(argos3 -c predatorprey.argos)
 
-        echo "Experiment $i: $q"
+        echo "Experiment $i: $q - seed: $random_value"
     done
 done
+
+# total execution time
+end=$(date +%s)
+runtime=$((end-start))
+echo "Total time: $runtime seconds"

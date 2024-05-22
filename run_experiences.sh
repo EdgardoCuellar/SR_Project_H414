@@ -26,10 +26,10 @@ do
     line_parsed=$(echo "$second_last_line" | awk -F 'Prey trapped for a total of | time steps' '{print $2}')
     cleaned_value=$(echo "$line_parsed" | sed 's/[^0-9]*//g')
     cleaned_value=$(echo "$cleaned_value" | awk -F '0132|0132' '{print $2}')
-    echo "Experiment $i: $cleaned_value"
+    echo "Experiment $i: $cleaned_value seed: $random_value"
     results_sum=$(($results_sum + $cleaned_value))
     # Save the last line of output to a file
-    echo "Average: $cleaned_value" >> "$output_name"
+    echo "Average: $cleaned_value seed: $random_value" >> "$output_name"
 done
 
 # Calculate the average of the results
