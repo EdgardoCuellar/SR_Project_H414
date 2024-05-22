@@ -11,23 +11,23 @@ def get_files_with_prefix(prefix):
 
 def main(csv_files):
     rab_ranges = []
-    omnidirectional_cameras = []
+    quantities = []
     for file in csv_files:
-        omnidirectional_camera = int(file.split('-')[1])
-        if omnidirectional_camera not in omnidirectional_cameras:
-            omnidirectional_cameras.append(omnidirectional_camera)  
+        quantity = int(file.split('-')[1])
+        if quantity not in quantities:
+            quantities.append(quantity)  
         rab_range = float(file.split('-')[2])
         if rab_range not in rab_ranges:
             rab_ranges.append(rab_range) 
     
     # Create a DataFrame to store the statistics
-    stats = pd.DataFrame(index=rab_ranges, columns=omnidirectional_cameras)
+    stats = pd.DataFrame(index=rab_ranges, columns=quantities)
 
     for rab_range in rab_ranges:
-        for omnidirectional_camera in omnidirectional_cameras:
+        for quantity in quantities:
             dfs = []
             for file in csv_files:
-                if str(rab_range) == file.split('-')[2] and str(omnidirectional_camera) == file.split('-')[1]:
+                if str(rab_range) == file.split('-')[2] and str(quantity) == file.split('-')[1]:
                     df = pd.read_csv(file)
                     dfs.append(df)
 
@@ -47,7 +47,7 @@ def main(csv_files):
             last_score_median = np.median([x[2] for x in only_last_row])
             first_1_mean = np.mean(first_1_list)
 
-            stats.loc[rab_range, omnidirectional_camera] = [last_score_mean, last_worst_score, last_best_score, last_score_median, first_1_mean]
+            stats.loc[rab_range, quantity] = [last_score_mean, last_worst_score, last_best_score, last_score_median, first_1_mean]
 
     # Save the statistics to a new CSV file
     stats.to_csv(f"./stats_loyalty.csv")

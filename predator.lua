@@ -142,31 +142,50 @@ function adjustAngleToPredictPrey(preyAngle)
     return preyAngle
 end
 
+--[[ This function is executed at each time step
+     It must contain the logic of your controller ]]
 function avoidObstacles()
-    local vec = { x=0, y=0 }
-	local accumul = { x=0, y=0 }
-	for i = 1, 24 do 
-		-- we calculate the x and y components given length and angle
-		vec = {
-			x = robot.proximity[i].value * math.cos(robot.proximity[i].angle),
-			y = robot.proximity[i].value * math.sin(robot.proximity[i].angle)
-		}
-		-- we sum the vectors into a variable called accumul
-		accumul.x = accumul.x + vec.x
-		accumul.y = accumul.y + vec.y
-	end
-	-- we get length and angle of the final sum vector
-	length = math.sqrt(accumul.x * accumul.x + accumul.y * accumul.y)
-	angle = math.atan2(accumul.y, accumul.x)
-	
-	if length > 0.2 then
-		if angle > 0 then
-            return {math.max(0.5,math.cos(angle)) * max_wheel_speed, 0}
-		else
-            return {0, math.max(0.5,math.cos(angle)) * max_wheel_speed}
+    -- SENSE
+	obstacle = false
+	for i=1,4 do
+		if (robot.proximity[i].value > 0.2) then
+			obstacle = true
+			break
 		end
 	end
-    return {max_wheel_speed, max_wheel_speed}
+	if (not obstacle) then
+		for i=20,24 do
+			if (robot.proximity[i].value > 0.2) then
+				obstacle = true
+				break
+			end			
+		end
+	end
+
+	-- THINK	
+	if(not avoid_obstacle) then
+		if(obstacle) then
+			avoid_obstacle = true
+			turning_steps = robot.random.uniform_int(4,30)
+			turning_right = robot.random.bernoulli()
+		end
+	else
+		turning_steps = turning_steps - 1
+		if(turning_steps == 0) then 
+			avoid_obstacle = false
+		end
+	end
+
+	-- ACT
+	if(not avoid_obstacle) then
+		return {max_wheel_speed, max_wheel_speed}
+	else
+		if(turning_right == 1) then
+            return {max_wheel_speed, -max_wheel_speed}
+		else
+            return {-max_wheel_speed, max_wheel_speed}
+		end
+	end
 end
 
 -- Function to adjust angle to avoid collisions with other predators
