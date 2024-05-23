@@ -20,11 +20,14 @@ def main(csv_files):
         if rab_range not in rab_ranges:
             rab_ranges.append(rab_range) 
     
+    # order rab_ranges
+    rab_ranges = sorted(rab_ranges)
+
     # Create a DataFrame to store the statistics
     stats = pd.DataFrame(index=rab_ranges, columns=quantities)
 
-    for rab_range in rab_ranges:
-        for quantity in quantities:
+    for quantity in quantities:
+        for rab_range in rab_ranges:
             dfs = []
             for file in csv_files:
                 if str(rab_range) == file.split('-')[2] and str(quantity) == file.split('-')[1]:
@@ -40,11 +43,11 @@ def main(csv_files):
                     if row[1] == 1:
                         first_1_list.append(index)
                         break
-                
+
             last_score_mean = np.mean([x[2] for x in only_last_row])
+            last_score_median = np.median([x[2] for x in only_last_row])
             last_worst_score = np.min([x[2] for x in only_last_row])
             last_best_score = np.max([x[2] for x in only_last_row])
-            last_score_median = np.median([x[2] for x in only_last_row])
             first_1_mean = np.mean(first_1_list)
 
             stats.loc[rab_range, quantity] = [last_score_mean, last_worst_score, last_best_score, last_score_median, first_1_mean]
